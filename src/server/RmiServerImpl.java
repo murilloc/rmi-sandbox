@@ -9,7 +9,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RmiServerImpl implements RmiServer {
 
-    public static final String MESSAGE = "Hello RMI!";
+    private static final String MESSAGE = "Hello RMI!";
+    private static final String TIMEOUT_MESSAGE = "Timeout!";
 
     public RmiServerImpl() throws RemoteException {
     }
@@ -29,7 +30,7 @@ public class RmiServerImpl implements RmiServer {
         RmiServer stub = null;
         try {
             stub = (RmiServer) UnicastRemoteObject.exportObject(server, 0);
-            registry = LocateRegistry.createRegistry(1099);
+            registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT); //Porta default do RMI
             registry.bind("RmiServer", stub);
             System.out.println("Registry iniciado.....");
 
@@ -48,8 +49,12 @@ public class RmiServerImpl implements RmiServer {
 
     @Override
     public String getMessage() throws RemoteException, Exception {
-
-        Thread.sleep(6000);
         return MESSAGE;
+    }
+
+    @Override
+    public String getTimeout(Integer tempo) throws RemoteException, Exception {
+        Thread.sleep(tempo);
+        return TIMEOUT_MESSAGE;
     }
 }

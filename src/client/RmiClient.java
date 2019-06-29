@@ -15,8 +15,8 @@ public class RmiClient {
             Registry registry = LocateRegistry.getRegistry("localhost");
             RmiServer rmiServer = (RmiServer) registry.lookup("RmiServer");
 
+            System.out.println(rmiServer.getTimeout(4000));
 
-            System.out.println(rmiServer.getMessage());
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
